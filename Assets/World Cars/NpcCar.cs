@@ -8,6 +8,12 @@ public class NpcCar : MonoBehaviour
 
 
 
+    public AudioClip crash;
+    public AudioClip horn;
+
+    private AudioSource audioS;
+    private Rigidbody rb;
+
     public List<Transform> carPath;
 
     float targetDis = 2f;
@@ -20,6 +26,34 @@ public class NpcCar : MonoBehaviour
     bool routeOk = false;
 
 
+    float crashDistance = 5f;
+
+    float hornDistance = 15f;
+
+
+
+    float currentSpeed;
+
+
+    float normalSpeed = 15f;
+    float slowSpeed = 5f;
+    float stopSpeed = 0.1f;
+
+
+    static float HORNMAXTIME = 4f;
+    float hornTime = 0;
+
+    public Transform rayCastPoint;
+
+    private void Start()
+    {
+        audioS = GetComponent<AudioSource>();
+        rb = this.GetComponent<Rigidbody>();
+        rayCastPoint = transform.GetChild(0);
+        currentSpeed = normalSpeed;
+
+    }
+
     public void SetValue(List<Transform> path)
     {
         carPath = path;
@@ -29,6 +63,60 @@ public class NpcCar : MonoBehaviour
     void SetTarget(int index)
     {
         target = carPath[index].position;
+    }
+
+
+
+
+    bool RayCheckDistance(float distance, Color color)
+    {
+        Ray ray = new Ray(rayCastPoint.position, rayCastPoint.transform.forward);
+        Debug.DrawRay(ray.origin, ray.direction * distance, color);
+        if (Physics.Raycast(ray, distance))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    bool HornDistance()
+    {
+        if (RayCheckDistance(hornDistance, Color.green))
+        {
+            currentSpeed = slowSpeed;
+            return true;
+        }
+        return false;
+    }
+
+
+    bool CrashDistance()
+    {
+        if (RayCheckDistance(crashDistance, Color.red))
+        {
+            Debug.Log("CrashDistance");
+            currentSpeed = stopSpeed;
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+    void SpeedCalculation()
+    {
+        HornDistance();
+        CrashDistance();
+
+
+        if(!CrashDistance() && !HornDistance())
+        {
+            currentSpeed = normalSpeed;
+        }
+
+
     }
 
 
@@ -80,7 +168,7 @@ public class NpcCar : MonoBehaviour
     }
 
 
-    Vector3 MovementTowardsTarget { get { return AddSpeed(GetDirection(transform.position, target), 20f); } }
+    Vector3 MovementTowardsTarget { get { return AddSpeed(GetDirection(transform.position, target), currentSpeed); } }
 
     void MoveTowardsTarget()
     {
@@ -89,92 +177,67 @@ public class NpcCar : MonoBehaviour
 
 
 
-    void LookAtTarget()
-    {
-        //Debug.Log("Target: " + target);
-
-        Quaternion quad = Quaternion.LookRotation(Vector3.up, target);
-
-
-        transform.rotation = quad;
-
-
-        /*
-        float angle = Vector3.Angle(Vector3.forward, GetDirection(transform.position, target));
-        Vector3 cross = Vector3.Cross(transform.forward, GetDirection(transform.position, target));
-
-        if (cross.y < 0)
-        {
-            angle = -angle;
-        }
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
-        */    
-    }
-
     // Update is called once per frame
     void Update()
     {
+        SpeedCalculation();
 
-        if(routeOk == true)
+
+        if (routeOk == true)
         {
 
             CheckTarget();
             MoveTowardsTarget();
-            LookAtTarget();
+            RotateAngleLerp(target);
         }
         else{
 
-            RotateAngleLerp(targetTransform.position);
+            RotateAngleLerp(target);
 
         }
     }
-
-
-    void RorateTowards(Vector3 target)
-    {
-        Vector3 dif = target - transform.position;
-
-
-        Quaternion lookrotation = Quaternion.LookRotation(dif, Vector3.up);
-
-        transform.rotation = lookrotation;
-
-    }
-
-
-    void RotateAngle(Vector3 target)
-    {
-        Vector3 dif = target - transform.position;
-
-
-        float angle = Mathf.Atan2(dif.x, dif.z) * Mathf.Rad2Deg;
-
-
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-    }
-
 
     void RotateAngleLerp(Vector3 target)
     {
         Vector3 dif = target - transform.position;
-
-
         float angle = Mathf.Atan2(dif.x, dif.z) * Mathf.Rad2Deg;
-
-
         Quaternion targetRot = Quaternion.Euler(0f, angle, 0f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, 9f * Time.deltaTime);
+
+    }
 
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, 2f * Time.deltaTime);
 
+    //Detect ipcoming crash 
+    //If ray hits somethng in fron for more than 1 second play horn 
+    //Set speed to lower speed;
+
+    //Draw another ray closer 
+    //If this ray hits something stop the car and play horn 
+
+    void CarCrash(Collision col)
+    {
+        Debug.Log("Collison: " + col.gameObject.name);
+
+        rb.isKinematic = false;
+        rb.useGravity = true;
+        Destroy(this);
+
+        audioS.PlayOneShot(crash);
+    
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collison: " + collision.gameObject.name);
 
+        CarCrash(collision);
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawLine(rayCastPoint.position, rayCastPoint.position + Vector3.forward * 5);
 
 
 

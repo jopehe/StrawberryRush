@@ -148,7 +148,7 @@ Transform:
   m_GameObject: {fileID: 120652237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19, y: 0, z: 12.25}
+  m_LocalPosition: {x: 19, y: 0.46, z: 12.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -629,7 +629,7 @@ Transform:
   m_GameObject: {fileID: 1694503077}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.75, y: 0, z: 18.25}
+  m_LocalPosition: {x: 11.75, y: 0.42, z: 18.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -726,7 +726,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.12
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -735,7 +735,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.142
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -804,7 +804,7 @@ GameObject:
   - component: {fileID: 2007782350}
   - component: {fileID: 2007782349}
   m_Layer: 0
-  m_Name: r
+  m_Name: Big Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -890,8 +890,8 @@ Transform:
   m_GameObject: {fileID: 2007782348}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.533617, y: -0.15, z: -5.4963875}
-  m_LocalScale: {x: 3.139, y: 3.139, z: 3.139}
+  m_LocalPosition: {x: 14.78, y: -0.15, z: 19.54}
+  m_LocalScale: {x: 6.38504, y: 6.38504, z: 6.38504}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
