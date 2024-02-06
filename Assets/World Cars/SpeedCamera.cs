@@ -42,38 +42,24 @@ public class SpeedCamera : MonoBehaviour
 
     }
 
-
-
-
-
-
-
     private void OnTriggerStay(Collider other)
     {
-        // && PlayerIsSpeeding
-        if (other.gameObject.tag == "Player" && PlayerIsSpeeding)// && PlayerIsSpeeding)
+        if (other.gameObject.tag == "Player" && PlayerIsSpeeding)
         {
             Flash();
-            Debug.Log("Trigger Player Collision!");
         }
 
     }
 
-
-
     float PlayerSpeed()
     {
         //Vector3 dif = player.transform.position - _playerLastPos;
-
         //float time = Time.deltaTime - _deltaTime;
         //float speed = dif.magnitude / time;
-
         //return speed;
 
         return rb.velocity.magnitude;
     }
-
-
     bool PlayerIsSpeeding { get { return (_PlayerSpeed > HighSpeed);  } }
 
 
@@ -90,10 +76,6 @@ public class SpeedCamera : MonoBehaviour
 
     }
 
-
-
-   
-
     void Flash()
     {
 
@@ -108,18 +90,13 @@ public class SpeedCamera : MonoBehaviour
 
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine(FlashEffect());
 
 
         }
-
         _playerLastPos = player.transform.position;
-        //_deltaTime += Time.deltaTime;
-
         _PlayerSpeed = PlayerSpeed();
-        //Debug.Log("Speed: " + _PlayerSpeed);
     }
 }
