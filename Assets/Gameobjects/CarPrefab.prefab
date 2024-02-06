@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4060746942264280663}
   - component: {fileID: 850904815736179486}
   - component: {fileID: 3869439462454416336}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CarPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1328427517087015462}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.6787581, y: 0.5899124, z: -1.3052902}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -127,6 +127,7 @@ MonoBehaviour:
   horn: {fileID: 8300000, guid: 8b7395cdd56cdb442892bfc630ca9eaa, type: 3}
   carPath: []
   targetTransform: {fileID: 0}
+  rayCastPoint: {fileID: 0}
 --- !u!54 &850904815736179486
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -135,7 +136,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328427517087015462}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -262,7 +263,7 @@ GameObject:
   - component: {fileID: 3914814901335030951}
   - component: {fileID: 3397632367797434485}
   - component: {fileID: 6731891274985983}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +369,7 @@ GameObject:
   - component: {fileID: 3833551660136010368}
   - component: {fileID: 1043036953526298092}
   - component: {fileID: 1659475527560705089}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3663719147994051077}
   - component: {fileID: 6023895190948728070}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -565,7 +566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4695510674657654837}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RayCastPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -597,7 +598,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2131914752219803293}
   - component: {fileID: 6097499217966450966}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

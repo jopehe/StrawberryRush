@@ -78,48 +78,46 @@ public class NpcCar : MonoBehaviour
         }
         return false;
     }
-
     bool HornDistance()
     {
         if (RayCheckDistance(hornDistance, Color.green))
         {
             currentSpeed = slowSpeed;
+            CarHornTimer();
             return true;
         }
         return false;
     }
-
 
     bool CrashDistance()
     {
         if (RayCheckDistance(crashDistance, Color.red))
         {
-            Debug.Log("CrashDistance");
             currentSpeed = stopSpeed;
+            CarHornTimer();
             return true;
         }
         return false;
     }
+    void CarHornTimer()
+    {
+        hornTime += Time.deltaTime;
 
-
-
-
-
+        if(hornTime >= HORNMAXTIME)
+        {
+            hornTime = 0;
+            audioS.PlayOneShot(horn);
+        }
+    }
     void SpeedCalculation()
     {
         HornDistance();
         CrashDistance();
-
-
         if(!CrashDistance() && !HornDistance())
         {
             currentSpeed = normalSpeed;
         }
-
-
     }
-
-
     void GetNextPoint()
     {
         index++;
@@ -133,8 +131,6 @@ public class NpcCar : MonoBehaviour
             SetTarget(index);
         }
     }
-
-
     float Distance(Vector3 position, Vector3 target)
     {
         float xVal = position.x - target.x;
@@ -159,7 +155,6 @@ public class NpcCar : MonoBehaviour
     {
         pos2 -= pos1;
         return pos2.normalized;
-
     }
 
     Vector3 AddSpeed(Vector3 direction, float speed)
@@ -167,22 +162,16 @@ public class NpcCar : MonoBehaviour
         return (direction * speed) * Time.deltaTime;
     }
 
-
     Vector3 MovementTowardsTarget { get { return AddSpeed(GetDirection(transform.position, target), currentSpeed); } }
 
     void MoveTowardsTarget()
     {
         transform.position += MovementTowardsTarget;
     }
-
-
-
     // Update is called once per frame
     void Update()
     {
         SpeedCalculation();
-
-
         if (routeOk == true)
         {
 
@@ -196,7 +185,6 @@ public class NpcCar : MonoBehaviour
 
         }
     }
-
     void RotateAngleLerp(Vector3 target)
     {
         Vector3 dif = target - transform.position;
@@ -205,16 +193,6 @@ public class NpcCar : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, 9f * Time.deltaTime);
 
     }
-
-
-
-    //Detect ipcoming crash 
-    //If ray hits somethng in fron for more than 1 second play horn 
-    //Set speed to lower speed;
-
-    //Draw another ray closer 
-    //If this ray hits something stop the car and play horn 
-
     void CarCrash(Collision col)
     {
         Debug.Log("Collison: " + col.gameObject.name);
@@ -226,20 +204,13 @@ public class NpcCar : MonoBehaviour
         audioS.PlayOneShot(crash);
     
     }
-
-
     private void OnCollisionEnter(Collision collision)
     {
 
-        CarCrash(collision);
-    }
 
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawLine(rayCastPoint.position, rayCastPoint.position + Vector3.forward * 5);
-
-
-
+        if(collision.gameObject.layer == 6)
+        {
+            CarCrash(collision);
+        }
     }
 }
